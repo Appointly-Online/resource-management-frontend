@@ -5,6 +5,7 @@ export const CompaniesList = props => (
     <List {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
+            <TextField source="fields.title" />
         </Datagrid>
     </List>
 );
