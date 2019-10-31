@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { fetchUtils, Admin, Resource } from 'react-admin';
+import simpleRestProvider from 'ra-data-simple-rest';
+import { CompaniesList} from './companies';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const url = process.env.REACT_APP_AIRTABLE_ENDPOINT;
+const httpClient = (url, options = {}) => {
+  if (!options.headers) {
+      options.headers = new Headers({ Accept: 'application/json' });
+  }
+  // add your own headers here
+  options.headers.set('Authorization', 'Bearer ' + process.env.REACT_APP_AIRTABLE_API_KEY);
+  return fetchUtils.fetchJson(url, options);
 }
+const dataProvider = simpleRestProvider(url, httpClient);
+
+const App = () => (
+  <Admin dataProvider={dataProvider}>
+      <Resource name="companies" list={CompaniesList} />
+  </Admin>
+)
 
 export default App;
