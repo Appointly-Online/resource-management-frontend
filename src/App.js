@@ -1,9 +1,12 @@
 import React from 'react';
 import { fetchUtils, Admin, Resource } from 'react-admin';
-import simpleRestProvider from 'ra-data-simple-rest';
-import { CompaniesList} from './companies';
+import { CompaniesList, CompaniesCreate} from './companies';
+import { DogsList, DogsCreate} from './dogs';
+import { ProfessionalsList } from './professionals';
+import airtableDataProvider from './airtableDataProvider'
 
 const url = process.env.REACT_APP_AIRTABLE_ENDPOINT;
+
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
       options.headers = new Headers({ Accept: 'application/json' });
@@ -12,11 +15,15 @@ const httpClient = (url, options = {}) => {
   options.headers.set('Authorization', 'Bearer ' + process.env.REACT_APP_AIRTABLE_API_KEY);
   return fetchUtils.fetchJson(url, options);
 }
-const dataProvider = simpleRestProvider(url, httpClient);
 
+const dataProvider = airtableDataProvider(url, httpClient)
+
+console.log(dataProvider);
 const App = () => (
   <Admin dataProvider={dataProvider}>
-      <Resource name="companies" list={CompaniesList} />
+      <Resource name="companies" list={CompaniesList} create={CompaniesCreate} />
+      <Resource name="professionals" list={ProfessionalsList} />
+      <Resource name="dogs" list={DogsList} create={DogsCreate} />
   </Admin>
 )
 
