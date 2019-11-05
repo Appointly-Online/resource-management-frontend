@@ -28,3 +28,14 @@ const App = () => (
 )
 
 export default App;
+
+function newFunction() {
+  const url = process.env.REACT_APP_AIRTABLE_ENDPOINT + '/companies?api_key=' + process.env.REACT_APP_AIRTABLE_API_KEY;
+  fetch(url)
+    .then((resp) => resp.json())
+    .then(data => {
+      return data
+    }).catch(err => {
+    });
+}
+
