@@ -1,6 +1,7 @@
 import React from 'react';
 import { fetchUtils, Admin, Resource } from 'react-admin';
-import { CompaniesList, CompaniesCreate} from './companies';
+import { CompaniesList, CompaniesCreate, CompaniesEdit} from './companies';
+import { PizzasList, PizzasCreate } from './pizzas';
 import { DogsList, DogsCreate} from './dogs';
 import { ProfessionalsList } from './professionals';
 import airtableDataProvider from './airtableDataProvider'
@@ -21,21 +22,11 @@ const dataProvider = airtableDataProvider(url, httpClient)
 console.log(dataProvider);
 const App = () => (
   <Admin dataProvider={dataProvider}>
-      <Resource name="companies" list={CompaniesList} create={CompaniesCreate} />
+      <Resource name="companies" list={CompaniesList} create={CompaniesCreate} edit={CompaniesEdit} />
       <Resource name="professionals" list={ProfessionalsList} />
       <Resource name="dogs" list={DogsList} create={DogsCreate} />
+      <Resource name="pizzas" list={PizzasList} create={PizzasCreate} />
   </Admin>
 )
 
 export default App;
-
-function newFunction() {
-  const url = process.env.REACT_APP_AIRTABLE_ENDPOINT + '/companies?api_key=' + process.env.REACT_APP_AIRTABLE_API_KEY;
-  fetch(url)
-    .then((resp) => resp.json())
-    .then(data => {
-      return data
-    }).catch(err => {
-    });
-}
-
